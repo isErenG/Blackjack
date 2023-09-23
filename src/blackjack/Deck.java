@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Deck {
 
-     public List<Integer> getCards(){
+    public List<Integer> getCards() {
         Integer[] deck = {2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 1};
         List<Integer> dealerShoe = new ArrayList<>();
 
@@ -18,8 +18,7 @@ public class Deck {
         }
 
         Collections.shuffle(dealerShoe);
-        System.out.println(dealerShoe);
-        return(dealerShoe);
+        return (dealerShoe);
     }
 }
 
