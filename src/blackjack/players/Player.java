@@ -9,7 +9,6 @@ public class Player {
 
     }
 
-
     public List<Integer> hit(List<Integer> playerHand, List<Integer> deck) {
         playerHand.add(deck.get(0));
         deck.remove(deck.get(0));
