@@ -4,16 +4,17 @@ import blackjack.Deck;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Dealer {
-    public List<List<Integer>> dealCards(List<Integer> deck, List<Integer> dealerHand, List<Integer> playerHand) {
+    public List<List<Integer>> dealCards(List<Integer> deck, List<Integer> dealerHand, List<Integer> playerHand, Deck dealerDeck) {
 
         // Dealer deals a total of 4 cards in a 1v1
         for (int i = 0; i < 4; i++) {
 
             Integer card = deck.get(i);
 
-            if (card==1){
+            if (card == 1) {
                 card = 11;
             }
 
@@ -28,6 +29,10 @@ public class Dealer {
         for (int i = 0; i < 4; i++) {
             deck.remove(deck.get(0));
         }
+
+        dealerDeck.calculateAces(dealerHand);
+        dealerDeck.calculateAces(playerHand);
+
 
         // Make a new list to add our hands and return it
         List<List<Integer>> hands = new ArrayList<>();
@@ -44,6 +49,14 @@ public class Dealer {
 
         deck.remove(deck.get(0));
         return dealerHand;
+    }
+
+    public Integer payOut(Integer wager, String winner){
+        if (Objects.equals(winner, "player")) {
+            return wager*2;
+        } else {
+            return 0;
+        }
     }
 
 }

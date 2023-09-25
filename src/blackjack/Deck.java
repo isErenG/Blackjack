@@ -25,13 +25,11 @@ public class Deck {
 
         for (int i = 0; i < hand.size(); i++) {
             int cardValue = hand.get(i);
-            System.out.println(cardValue);
 
             if (cardValue == 11 && updateHands(hand) > 21) {
                 hand.set(i, 1); // Change the specific element at index 'i' to 1
             }
         }
-
     }
 
     public Integer updateHands(List<Integer> hands) {
@@ -41,7 +39,6 @@ public class Deck {
         }
         return handValue;
     }
-
 }
 
 

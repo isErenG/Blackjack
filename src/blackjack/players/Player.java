@@ -3,12 +3,13 @@ package blackjack.players;
 import blackjack.Deck;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class Player {
 
-    void wager(Dealer dealer) {
-        //Wager bet
-
+    public Integer wager(Scanner scanner) {
+        System.out.println("How much do you wish to wager?");
+        return scanner.nextInt();
     }
 
     public List<Integer> hit(List<Integer> playerHand, List<Integer> deck, Deck dealerDeck) {

@@ -31,12 +31,16 @@ public class Game {
         Scanner scanner = new Scanner(System.in);
 
         // Call the dealCards method from the dealer which returns the player and dealer hands
-        List<List<Integer>> hands = dealer.dealCards(deck, dealerHand, playerHand);
+        List<List<Integer>> hands = dealer.dealCards(deck, dealerHand, playerHand, dealerDeck);
         List<Integer> dealerHand = hands.get(0);
         List<Integer> playerHand = hands.get(1);
 
 
         boolean wantsHit = true;
+
+        Integer bet = player.wager(scanner);
+        scanner.nextLine();
+
         System.out.println("The dealer has a " + dealerHand.get(0) + "\nWhile you have a " + playerHand + "\nDo you wish to hit or stand?");
 
         while (wantsHit) {
@@ -51,7 +55,7 @@ public class Game {
                 }
             } else {
                 // If the player exceeds 21, we immediately check the winner to determine that the player busted
-                System.out.println(checkWinner(dealerHand, playerHand));
+                System.out.println(checkWinner(dealerHand, playerHand, dealer, bet));
                 return;
             }
         }
@@ -62,7 +66,7 @@ public class Game {
         while (shouldDealerHit) {
             TimeUnit.SECONDS.sleep(2);
             if (dealerDeck.updateHands(dealerHand) >= 17) {
-                System.out.println(checkWinner(dealerHand, playerHand));
+                System.out.println(checkWinner(dealerHand, playerHand, dealer, bet));
                 shouldDealerHit = false;
 
             } else {
@@ -72,25 +76,28 @@ public class Game {
     }
 
 
-
-    public String checkWinner(List<Integer> dealerHand, List<Integer> playerHand) {
+    public String checkWinner(List<Integer> dealerHand, List<Integer> playerHand, Dealer dealer, Integer bet) {
         Integer dealerValue = dealerDeck.updateHands(dealerHand);
         Integer playerValue = dealerDeck.updateHands(playerHand);
 
-        if (playerValue > dealerValue && playerValue <= 21) {
-            //run a method to pay out the bet
+        if (playerValue > dealerValue && playerValue < 21) {
+            dealer.payOut(bet, "player");
             return "The Player wins!";
 
         } else if (dealerValue > 21) {
-            //run a method to pay out the bet
+            dealer.payOut(bet, "player");
             return "Dealer busts! Player wins!";
 
+        } else if (playerValue == 21) {
+            dealer.payOut(bet, "player");
+            return "Blackjack! Player wins!";
+
         } else if (playerValue > 21) {
-            //run a method to subtract the bet
+            dealer.payOut(bet, "dealer");
             return "The Player busts! The Dealer wins!";
 
         } else {
-            //run a method to subtract the bet
+            dealer.payOut(bet, "dealer");
             return "The Dealer wins!";
         }
     }
