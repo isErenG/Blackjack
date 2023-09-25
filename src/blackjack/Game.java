@@ -25,6 +25,11 @@ public class Game {
     List<Integer> playerHand = new ArrayList<>();
 
     private String getNextMove() {
+        System.out.println("Do you wish to hit or stand?");
+        return scanner.nextLine().toLowerCase();
+    }
+
+    private String quitGame() {
         return scanner.nextLine().toLowerCase();
     }
 
@@ -48,7 +53,7 @@ public class Game {
             Integer bet = player.wager(scanner);
             scanner.nextLine();
 
-            System.out.println("\nThe dealer has a " + dealerHand.get(0) + "\nWhile you have a " + playerHand + "\nDo you wish to hit or stand?");
+            System.out.println("\nThe dealer has a " + dealerHand.get(0) + "\nWhile you have a " + playerHand);
 
             while (wantsHit) {
                 // Calculate the player's hand value
@@ -62,7 +67,6 @@ public class Game {
                 } else if (getNextMove().equalsIgnoreCase("hit")) {
                     // Player wants to hit
                     System.out.println("\n" + player.hit(playerHand, deck, dealerDeck));
-                    System.out.println("Do you wish to hit or stand?");
                 } else {
                     // Player does not choose hit, so leave the loop
                     wantsHit = false;
@@ -70,7 +74,7 @@ public class Game {
             }
 
 
-            System.out.println("The dealer reveals a " + dealerHand.get(1));
+            System.out.println("\nThe dealer reveals a " + dealerHand.get(1));
             while (shouldDealerHit) {
                 TimeUnit.SECONDS.sleep(2);
                 if (dealerDeck.updateHands(dealerHand) >= 17) {
@@ -83,7 +87,7 @@ public class Game {
             }
 
             System.out.println("\nDo you want to continue playing?\n[Options] yes or no");
-            if (getNextMove().equalsIgnoreCase("No")) {
+            if (quitGame().equalsIgnoreCase("No")) {
                 continuePlaying = false;
             } else {
                 playerHand.clear();
