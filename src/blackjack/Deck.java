@@ -20,6 +20,28 @@ public class Deck {
         Collections.shuffle(dealerShoe);
         return (dealerShoe);
     }
+
+    public void calculateAces(List<Integer> hand) {
+
+        for (int i = 0; i < hand.size(); i++) {
+            int cardValue = hand.get(i);
+            System.out.println(cardValue);
+
+            if (cardValue == 11 && updateHands(hand) > 21) {
+                hand.set(i, 1); // Change the specific element at index 'i' to 1
+            }
+        }
+
+    }
+
+    public Integer updateHands(List<Integer> hands) {
+        Integer handValue = 0;
+        for (Integer i : hands) {
+            handValue += i;
+        }
+        return handValue;
+    }
+
 }
 
 
