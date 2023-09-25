@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 public class Game {
 
+    Scanner scanner = new Scanner(System.in);
 
     // Create a new deck of cards using the Deck class
     Deck dealerDeck = new Deck();
@@ -23,82 +24,99 @@ public class Game {
     // Initialize an empty list to represent the player's hand
     List<Integer> playerHand = new ArrayList<>();
 
+    private String getNextMove() {
+        return scanner.nextLine().toLowerCase();
+    }
 
     public void startGame() throws InterruptedException {
         // Initialize the dealer and player
         Dealer dealer = new Dealer();
         Player player = new Player();
-        Scanner scanner = new Scanner(System.in);
 
-        // Call the dealCards method from the dealer which returns the player and dealer hands
-        List<List<Integer>> hands = dealer.dealCards(deck, dealerHand, playerHand, dealerDeck);
-        List<Integer> dealerHand = hands.get(0);
-        List<Integer> playerHand = hands.get(1);
+        boolean continuePlaying = true;
 
+        while (continuePlaying) {
 
-        boolean wantsHit = true;
+            boolean wantsHit = true;
+            boolean shouldDealerHit = true;
 
-        Integer bet = player.wager(scanner);
-        scanner.nextLine();
+            // Call the dealCards method from the dealer which returns the player and dealer hands
+            List<List<Integer>> hands = dealer.dealCards(deck, dealerHand, playerHand, dealerDeck);
+            List<Integer> dealerHand = hands.get(0);
+            List<Integer> playerHand = hands.get(1);
 
-        System.out.println("The dealer has a " + dealerHand.get(0) + "\nWhile you have a " + playerHand + "\nDo you wish to hit or stand?");
+            Integer bet = player.wager(scanner);
+            scanner.nextLine();
 
-        while (wantsHit) {
-            // Immediately check if the player has not busted
-            if (!(dealerDeck.updateHands(playerHand) > 21)) {
-                if (scanner.nextLine().equalsIgnoreCase("hit")) {
-                    System.out.println(player.hit(playerHand, deck, dealerDeck));
+            System.out.println("\nThe dealer has a " + dealerHand.get(0) + "\nWhile you have a " + playerHand + "\nDo you wish to hit or stand?");
+
+            while (wantsHit) {
+                // Calculate the player's hand value
+                int playerHandValue = dealerDeck.updateHands(playerHand);
+
+                // Check if the player has busted
+                if (playerHandValue > 21) {
+                    System.out.println("The player has busted.");
+                    shouldDealerHit = false;
+                    wantsHit = false;
+                } else if (getNextMove().equalsIgnoreCase("hit")) {
+                    // Player wants to hit
+                    System.out.println("\n" + player.hit(playerHand, deck, dealerDeck));
                     System.out.println("Do you wish to hit or stand?");
                 } else {
-                    // If the player does not choose hit, they leave the while loop
+                    // Player does not choose hit, so leave the loop
                     wantsHit = false;
                 }
-            } else {
-                // If the player exceeds 21, we immediately check the winner to determine that the player busted
-                System.out.println(checkWinner(dealerHand, playerHand, dealer, bet));
-                return;
             }
-        }
 
-        boolean shouldDealerHit = true;
 
-        System.out.println("The dealer reveals a " + dealerHand.get(1));
-        while (shouldDealerHit) {
-            TimeUnit.SECONDS.sleep(2);
-            if (dealerDeck.updateHands(dealerHand) >= 17) {
-                System.out.println(checkWinner(dealerHand, playerHand, dealer, bet));
-                shouldDealerHit = false;
+            System.out.println("The dealer reveals a " + dealerHand.get(1));
+            while (shouldDealerHit) {
+                TimeUnit.SECONDS.sleep(2);
+                if (dealerDeck.updateHands(dealerHand) >= 17) {
+                    System.out.println(checkWinner(dealerHand, playerHand, dealer, bet));
+                    shouldDealerHit = false;
 
+                } else {
+                    System.out.println("The dealer's hand is: " + dealer.hit(dealerHand, deck, dealerDeck));
+                }
+            }
+
+            System.out.println("\nDo you want to continue playing?\n[Options] yes or no");
+            if (getNextMove().equalsIgnoreCase("No")) {
+                continuePlaying = false;
             } else {
-                System.out.println("The dealer's hand is: " + dealer.hit(dealerHand, deck, dealerDeck));
+                playerHand.clear();
+                dealerHand.clear();
             }
         }
     }
-
 
     public String checkWinner(List<Integer> dealerHand, List<Integer> playerHand, Dealer dealer, Integer bet) {
         Integer dealerValue = dealerDeck.updateHands(dealerHand);
         Integer playerValue = dealerDeck.updateHands(playerHand);
 
         if (playerValue > dealerValue && playerValue < 21) {
-            dealer.payOut(bet, "player");
-            return "The Player wins!";
+            return "The Player wins!\n$" + dealer.payOut(bet, "player");
+
+        } else if (playerValue == 21 && playerHand.size() == 2) {
+            return "Blackjack! The Player wins!\n$" + dealer.payOut(bet, "player");
 
         } else if (dealerValue > 21) {
-            dealer.payOut(bet, "player");
-            return "Dealer busts! Player wins!";
-
-        } else if (playerValue == 21) {
-            dealer.payOut(bet, "player");
-            return "Blackjack! Player wins!";
+            return "Dealer busts! Player wins!\n$" + dealer.payOut(bet, "player");
 
         } else if (playerValue > 21) {
             dealer.payOut(bet, "dealer");
-            return "The Player busts! The Dealer wins!";
+            return "The Player busts! The Dealer wins!\n$" + dealer.payOut(bet, "dealer");
 
         } else {
-            dealer.payOut(bet, "dealer");
-            return "The Dealer wins!";
+            if (dealerValue.equals(playerValue)) {
+                return "Push!\n$" + dealer.payOut(bet, "stalemate");
+
+            } else {
+                return "The Dealer wins!\n$" + dealer.payOut(bet, "dealer");
+            }
         }
     }
+
 }

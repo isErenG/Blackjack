@@ -53,7 +53,9 @@ public class Dealer {
 
     public Integer payOut(Integer wager, String winner){
         if (Objects.equals(winner, "player")) {
-            return wager*2;
+            return wager * 2;
+        } else if (Objects.equals(winner, "stalemate")) {
+            return wager;
         } else {
             return 0;
         }
