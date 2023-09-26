@@ -11,3 +11,13 @@ The program is a simple game of blackjack. The rules are simple, you hit or stan
 Add more comments
 Add database connection to see wins and losses (PostgreSQL)
 ```
+<details>
+<summary>My top languages</summary>
+
+| Rank | Languages |
+|-----:|-----------|
+|     1| Javascript|
+|     2| Python    |
+|     3| SQL       |
+
+</details>
