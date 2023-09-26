@@ -4,7 +4,6 @@ import blackjack.players.Dealer;
 import blackjack.players.Player;
 import blackjack.game_mechanics.GameMechanics;
 
-
 import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,15 +24,7 @@ public class Game {
     List<Integer> dealerHand = new ArrayList<>();
     List<Integer> playerHand = new ArrayList<>();
 
-    private String getNextMove() {
-        System.out.println("Do you wish to hit or stand?");
-        return scanner.nextLine().toLowerCase();
-    }
-
-    private String quitGame() {
-        return scanner.nextLine().toLowerCase();
-    }
-
+    // Starts the game
     public void startGame() throws InterruptedException {
         // Initialize the dealer and player
         Dealer dealer = new Dealer();
@@ -46,16 +37,19 @@ public class Game {
             boolean wantsHit = true;
             boolean shouldDealerHit = true;
 
-            // Call the dealCards method from the dealer which returns the player and dealer hands
+            // Deals the cards to the player and dealer
             List<List<Integer>> hands = dealer.dealCards(deck, dealerHand, playerHand, dealerDeck);
             List<Integer> dealerHand = hands.get(0);
             List<Integer> playerHand = hands.get(1);
 
+            // Prompts the player to place a bet
             Integer bet = player.wager(scanner);
             scanner.nextLine();
 
+            // Displays the player's and dealer's hands
             System.out.println("\nThe dealer has a " + dealerHand.get(0) + "\nWhile you have a " + playerHand);
 
+            // While the player wants to hit and hasn't busted, continue hitting
             while (wantsHit) {
                 // Calculate the player's hand value
                 int playerHandValue = dealerDeck.updateHands(playerHand);
@@ -65,7 +59,7 @@ public class Game {
                     System.out.println("The player has busted.");
                     shouldDealerHit = false;
                     wantsHit = false;
-                } else if (getNextMove().equalsIgnoreCase("hit")) {
+                } else if (gameMechanics.getNextMove(scanner).equalsIgnoreCase("hit")) {
                     // Player wants to hit
                     System.out.println("\n" + player.hit(playerHand, deck, dealerDeck));
                 } else {
@@ -75,28 +69,32 @@ public class Game {
             }
 
 
+            // Reveal the dealer's second card
             System.out.println("\nThe dealer reveals a " + dealerHand.get(1) + "\n");
+
+            // While the dealer needs to hit, continue hitting
             while (shouldDealerHit) {
                 TimeUnit.SECONDS.sleep(2);
                 if (dealerDeck.updateHands(dealerHand) >= 17) {
+                    // Check the winner and display the result
                     System.out.println(gameMechanics.checkWinner(dealerDeck, dealerHand, playerHand, dealer, bet));
                     shouldDealerHit = false;
 
                 } else {
+                    // The dealer needs to hit
                     System.out.println("The dealer's hand is: " + dealer.hit(dealerHand, deck, dealerDeck));
                 }
             }
 
+            // Ask the player if they want to continue playing
             System.out.println("\nDo you want to continue playing?\n[Options] Press enter or type no");
-            if (quitGame().equalsIgnoreCase("No")) {
+            if (gameMechanics.quitGame(scanner).equalsIgnoreCase("No")) {
                 continuePlaying = false;
             } else {
+                // Clear the player and dealer hands
                 playerHand.clear();
                 dealerHand.clear();
             }
         }
     }
-
-
-
 }
