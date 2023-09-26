@@ -4,7 +4,7 @@ out/
 !**/src/test/**/out/
 !**/src/main/**/target/
 !**/src/test/**/target/
-!**/.idea/
+!**/src/test/**/.idea/
 
 
 ### Eclipse ###
