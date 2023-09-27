@@ -7,10 +7,8 @@
     <version>1.0</version>
 
     <scm>
-        <connection>scm:http://github.com/isErenG/blackJack</connection>
         <developerConnection>scm:https://github.com/isErenG/blackJack</developerConnection>
-        <url>http://github.com/isErenG/blackJack</url>
-
+        <url>https://github.com/isErenG/blackJack</url>
         <tag>1</tag>
   </scm>
 
