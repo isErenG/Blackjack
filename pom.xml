@@ -4,7 +4,7 @@
 
     <groupId>eren</groupId>
     <artifactId>Blackjack</artifactId>
-    <version>1.2</version>
+    <version>1.3-SNAPSHOT</version>
 
     <scm>
         <connection>scm:git:https://github.com/isErenG/blackJack.git</connection>
