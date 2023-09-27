@@ -1,6 +1,7 @@
 package blackjack.game_mechanics;
 
 import blackjack.Deck;
+import blackjack.players.ArtificialPlayer;
 import blackjack.players.Dealer;
 
 import java.util.List;
@@ -8,15 +9,30 @@ import java.util.Scanner;
 
 public class GameMechanics {
 
+    ArtificialPlayer aiPlayer = new ArtificialPlayer();
+
     // Asks the player for their next move (hit or stand)
-    public String getNextMove(Scanner scanner) {
-        System.out.println("Do you wish to hit or stand?");
-        return scanner.nextLine().toLowerCase();
+    public String getNextMove(Scanner scanner, int playerHandValue, int dealerHand) {
+
+        if (aiPlayer.aiPlayer(true)) {
+
+            return aiPlayer.chooseMove(playerHandValue, dealerHand);
+
+        } else {
+            System.out.println("Do you wish to hit or stand?");
+            return scanner.nextLine().toLowerCase();
+        }
     }
 
     // Asks the player to confirm if they want to quit the game
     public String quitGame(Scanner scanner) {
-        return scanner.nextLine().toLowerCase();
+        if (aiPlayer.aiPlayer(true)) {
+            return "yes";
+
+        } else {
+            System.out.println("\nDo you want to continue playing?\n[Options] Press enter or type no");
+            return scanner.nextLine().toLowerCase();
+        }
     }
 
     public String checkWinner(Deck dealerDeck, List<Integer> dealerHand, List<Integer> playerHand, Dealer dealer, Integer bet) {

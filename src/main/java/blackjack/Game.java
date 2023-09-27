@@ -59,7 +59,7 @@ public class Game {
                     System.out.println("The player has busted.");
                     shouldDealerHit = false;
                     wantsHit = false;
-                } else if (gameMechanics.getNextMove(scanner).equalsIgnoreCase("hit")) {
+                } else if (gameMechanics.getNextMove(scanner, playerHandValue, dealerHand.get(0)).equalsIgnoreCase("hit")) {
                     // Player wants to hit
                     System.out.println("\n" + player.hit(playerHand, deck, dealerDeck));
                 } else {
@@ -86,7 +86,6 @@ public class Game {
             }
 
             // Ask the player if they want to continue playing
-            System.out.println("\nDo you want to continue playing?\n[Options] Press enter or type no");
             if (gameMechanics.quitGame(scanner).equalsIgnoreCase("No")) {
                 continuePlaying = false;
             } else {
