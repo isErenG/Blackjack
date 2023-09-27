@@ -68,7 +68,6 @@ public class Game {
                 }
             }
 
-
             // Reveal the dealer's second card
             System.out.println("\nThe dealer reveals a " + dealerHand.get(1) + "\n");
 
