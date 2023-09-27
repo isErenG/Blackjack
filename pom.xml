@@ -7,8 +7,11 @@
     <version>1.0</version>
 
     <scm>
-        <developerConnection>scm:git:scm:git:https://github.com/isErenG/blackJack.git</developerConnection>
-      <tag>1</tag>
+        <connection>scm:svn:http://github.com/isErenG/blackJack</connection>
+        <developerConnection>scm:svn:https://github.com/isErenG/blackJack</developerConnection>
+        <url>http://github.com/isErenG/blackJack</url>
+
+        <tag>1</tag>
   </scm>
 
     <properties>
