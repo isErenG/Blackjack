@@ -7,7 +7,6 @@ public class ArtificialPlayer {
 
     List<Integer> list = Arrays.asList(2, 3, 4, 5, 6);
 
-
     public boolean aiPlayer(boolean value) {
         return value;
     }
@@ -17,10 +16,10 @@ public class ArtificialPlayer {
         if (playerHandValue <= 11) {
             return "hit";
 
-        } else if (playerHandValue >= 17){
+        } else if (playerHandValue >= 17) {
             return "stand";
 
-        } else if (!list.contains(dealerHand)){
+        } else if (!list.contains(dealerHand)) {
             return "hit";
 
         } else {

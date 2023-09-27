@@ -11,6 +11,15 @@ import java.util.Scanner;
 
 public class Game {
 
+    int runningCount = 0;
+    boolean continuePlaying = true;
+
+    public void exit() {
+        if (runningCount >= 20) {
+            continuePlaying = false;
+        }
+    }
+
     Scanner scanner = new Scanner(System.in);
 
     // Get the game mechanics from the GameMechanics.class
@@ -29,8 +38,6 @@ public class Game {
         // Initialize the dealer and player
         Dealer dealer = new Dealer();
         Player player = new Player();
-
-        boolean continuePlaying = true;
 
         while (continuePlaying) {
 
@@ -73,7 +80,7 @@ public class Game {
 
             // While the dealer needs to hit, continue hitting
             while (shouldDealerHit) {
-                TimeUnit.SECONDS.sleep(2);
+                //TimeUnit.SECONDS.sleep(2);
                 if (dealerDeck.updateHands(dealerHand) >= 17) {
                     // Check the winner and display the result
                     System.out.println(gameMechanics.checkWinner(dealerDeck, dealerHand, playerHand, dealer, bet));
@@ -92,6 +99,9 @@ public class Game {
                 // Clear the player and dealer hands
                 playerHand.clear();
                 dealerHand.clear();
+
+                runningCount += 1;
+                exit();
             }
         }
     }

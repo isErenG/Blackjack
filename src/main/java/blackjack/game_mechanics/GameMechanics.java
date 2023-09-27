@@ -13,9 +13,7 @@ public class GameMechanics {
 
     // Asks the player for their next move (hit or stand)
     public String getNextMove(Scanner scanner, int playerHandValue, int dealerHand) {
-
         if (aiPlayer.aiPlayer(true)) {
-
             return aiPlayer.chooseMove(playerHandValue, dealerHand);
 
         } else {
