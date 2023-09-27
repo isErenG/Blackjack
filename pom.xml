@@ -7,10 +7,10 @@
     <version>1.0</version>
 
     <scm>
-        <developerConnection>scm:https://github.com/isErenG/blackJack</developerConnection>
+        <connection>scm:git:https://github.com/isErenG/blackJack.git</connection>
+        <developerConnection>scm:git:https://github.com/isErenG/blackJack.git</developerConnection>
         <url>https://github.com/isErenG/blackJack</url>
-        <tag>1</tag>
-  </scm>
+    </scm>
 
     <properties>
         <maven.compiler.source>20</maven.compiler.source>
