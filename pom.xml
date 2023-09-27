@@ -10,6 +10,7 @@
         <connection>scm:git:https://github.com/isErenG/blackJack.git</connection>
         <developerConnection>scm:git:https://github.com/isErenG/blackJack.git</developerConnection>
         <url>https://github.com/isErenG/blackJack</url>
+    <tag>stageing</tag>
   </scm>
 
     <properties>
