@@ -12,4 +12,4 @@ Add database connection to see wins and losses (PostgreSQL)
 Add option to play game automatically and get statistics
 Add GUI (hard)
 ```
-<img src="game.png" width="200" height="400" />
+<img src="game.png" height="400" />
