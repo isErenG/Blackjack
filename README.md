@@ -9,7 +9,6 @@ The program is a simple game of blackjack. The rules are simple, you hit or stan
 ### To-Do
 ```
 Add database connection to see wins and losses (PostgreSQL)
-<strike>Add option to play game automatically and get statistics</strike>
 Rework some of the code to make it more readable and more object oriented
 Add more comments
 
