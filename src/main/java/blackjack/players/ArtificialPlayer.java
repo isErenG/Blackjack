@@ -7,7 +7,7 @@ public class ArtificialPlayer {
 
     List<Integer> list = Arrays.asList(2, 3, 4, 5, 6);
 
-    public boolean aiPlayer(boolean value) {
+    public boolean isPlayerAI(boolean value) {
         return value;
     }
 

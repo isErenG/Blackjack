@@ -1,4 +1,4 @@
-package blackjack;
+package blackjack.game_mechanics;
 
 import java.util.ArrayList;
 import java.util.Arrays;

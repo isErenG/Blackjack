@@ -1,6 +1,5 @@
 package blackjack.game_mechanics;
 
-import blackjack.Deck;
 import blackjack.players.ArtificialPlayer;
 import blackjack.players.Dealer;
 
@@ -9,12 +8,14 @@ import java.util.Scanner;
 
 public class GameMechanics {
 
-    ArtificialPlayer aiPlayer = new ArtificialPlayer();
+    ArtificialPlayer artificialPlayer = new ArtificialPlayer();
+
+    int runningCount = 0;
 
     // Asks the player for their next move (hit or stand)
-    public String getNextMove(Scanner scanner, int playerHandValue, int dealerHand) {
-        if (aiPlayer.aiPlayer(true)) {
-            return aiPlayer.chooseMove(playerHandValue, dealerHand);
+    public String getNextMove(Scanner scanner, int playerHandValue, int dealerHand, boolean aiPlayer) {
+        if (aiPlayer) {
+            return artificialPlayer.chooseMove(playerHandValue, dealerHand);
 
         } else {
             System.out.println("Do you wish to hit or stand?");
@@ -23,9 +24,14 @@ public class GameMechanics {
     }
 
     // Asks the player to confirm if they want to quit the game
-    public String quitGame(Scanner scanner) {
-        if (aiPlayer.aiPlayer(true)) {
-            return "yes";
+    public String quitGame(Scanner scanner, boolean aiPlayer, int number) {
+        if (aiPlayer) {
+            if (runningCount >= number) {
+                return "no";
+            } else {
+                runningCount += 1;
+                return "yes";
+            }
 
         } else {
             System.out.println("\nDo you want to continue playing?\n[Options] Press enter or type no");
@@ -38,21 +44,21 @@ public class GameMechanics {
         Integer playerValue = dealerDeck.updateHands(playerHand);
 
         if (playerValue > dealerValue && playerValue < 21) {
-            return "\nThe Player wins!\n$" + dealer.payOut(bet, "player");
+            return "\nThe Player wins!\nPayout:$" + dealer.payOut(bet, "player");
 
         } else if (playerValue == 21 && playerHand.size() == 2) {
-            return "\nBlackjack! The Player wins!\n$" + dealer.payOut(bet, "player");
+            return "\nBlackjack! The Player wins!\nPayout:$" + dealer.payOut(bet, "player");
 
         } else if (dealerValue > 21) {
-            return "\nDealer busts! Player wins!\n$" + dealer.payOut(bet, "player");
+            return "\nDealer busts! Player wins!\nPayout:$" + dealer.payOut(bet, "player");
 
         } else if (playerValue > 21) {
             dealer.payOut(bet, "dealer");
-            return "\nThe Player busts! The Dealer wins!\n$" + dealer.payOut(bet, "dealer");
+            return "\nThe Player busts! The Dealer wins!\nPayout:$" + dealer.payOut(bet, "dealer");
 
         } else {
             if (dealerValue.equals(playerValue)) {
-                return "\nPush!\n$" + dealer.payOut(bet, "stalemate");
+                return "\nPush!\nPayout:$" + dealer.payOut(bet, "stalemate");
 
             } else {
                 return "\nThe Dealer wins!\nPayout:$" + dealer.payOut(bet, "dealer");

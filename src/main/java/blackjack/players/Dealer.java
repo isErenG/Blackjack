@@ -1,6 +1,6 @@
 package blackjack.players;
 
-import blackjack.Deck;
+import blackjack.game_mechanics.Deck;
 
 import java.util.ArrayList;
 import java.util.List;
