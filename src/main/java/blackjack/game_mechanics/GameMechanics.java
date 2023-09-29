@@ -2,6 +2,7 @@ package blackjack.game_mechanics;
 
 import blackjack.players.ArtificialPlayer;
 import blackjack.players.Dealer;
+import blackjack.statistics.Statistic;
 
 import java.util.List;
 import java.util.Scanner;
@@ -9,6 +10,7 @@ import java.util.Scanner;
 public class GameMechanics {
 
     ArtificialPlayer artificialPlayer = new ArtificialPlayer();
+    Statistic statistics = new Statistic();
 
     int runningCount = 0;
 
@@ -27,6 +29,7 @@ public class GameMechanics {
     public String quitGame(Scanner scanner, boolean aiPlayer, int number) {
         if (aiPlayer) {
             if (runningCount >= number) {
+                statistics.displayStatistics();
                 return "no";
             } else {
                 runningCount += 1;
@@ -44,23 +47,29 @@ public class GameMechanics {
         Integer playerValue = dealerDeck.updateHands(playerHand);
 
         if (playerValue > dealerValue && playerValue < 21) {
+            statistics.addWinner("player");
             return "\nThe Player wins!\nPayout:$" + dealer.payOut(bet, "player");
 
         } else if (playerValue == 21 && playerHand.size() == 2) {
+            statistics.addWinner("player");
             return "\nBlackjack! The Player wins!\nPayout:$" + dealer.payOut(bet, "player");
 
         } else if (dealerValue > 21) {
+            statistics.addWinner("player");
             return "\nDealer busts! Player wins!\nPayout:$" + dealer.payOut(bet, "player");
 
         } else if (playerValue > 21) {
             dealer.payOut(bet, "dealer");
+            statistics.addWinner("dealer");
             return "\nThe Player busts! The Dealer wins!\nPayout:$" + dealer.payOut(bet, "dealer");
 
         } else {
             if (dealerValue.equals(playerValue)) {
+                statistics.addWinner("push");
                 return "\nPush!\nPayout:$" + dealer.payOut(bet, "stalemate");
 
             } else {
+                statistics.addWinner("dealer");
                 return "\nThe Dealer wins!\nPayout:$" + dealer.payOut(bet, "dealer");
             }
         }
