@@ -24,10 +24,13 @@ public class Player {
             bankRoll = bankRoll - bet;
 
             return bet;
-
         }
     }
 
+    public Integer balance(Integer payOut) {
+        bankRoll = bankRoll + payOut;
+        return bankRoll;
+    }
 
     public List<Integer> hit(List<Integer> playerHand, List<Integer> deck, Deck dealerDeck) {
         playerHand.add(deck.get(0));
@@ -36,11 +39,6 @@ public class Player {
 
         deck.remove(deck.get(0));
         return playerHand;
-    }
-
-    public Integer balance(Integer payOut) {
-        bankRoll = bankRoll + payOut;
-        return bankRoll;
     }
 }
 

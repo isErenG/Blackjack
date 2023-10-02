@@ -1,6 +1,7 @@
 package blackjack;
 
 import blackjack.game_mechanics.Deck;
+import blackjack.players.ArtificialPlayer;
 import blackjack.players.Dealer;
 import blackjack.players.Player;
 import blackjack.game_mechanics.GameMechanics;
@@ -13,6 +14,7 @@ import java.util.Scanner;
 public class Game {
     boolean continuePlaying = true;
     int runningCount;
+    boolean isPlayerAI;
 
     Scanner scanner = new Scanner(System.in);
 
@@ -22,6 +24,8 @@ public class Game {
     // Create a new deck of cards using the Deck class
     Deck dealerDeck = new Deck();
 
+    ArtificialPlayer playerAI = new ArtificialPlayer();
+
     // Get the list of cards from the dealer's deck and create empty lists for each player
     List<Integer> deck = dealerDeck.getCards();
     List<Integer> dealerHand = new ArrayList<>();
@@ -29,12 +33,10 @@ public class Game {
 
     // Starts the game
     public void startGame() throws InterruptedException {
-        System.out.println("Do you want the AI to play it and give statistics?");
-        boolean isPlayerAI = scanner.nextBoolean();
 
+        isPlayerAI = playerAI.isPlayerAI(scanner);
         if (isPlayerAI) {
-            System.out.println("How many times should the game run?");
-            runningCount = scanner.nextInt() - 1;
+            runningCount = playerAI.getRunningCount(scanner);
         }
 
         System.out.println("\nLet's begin");
