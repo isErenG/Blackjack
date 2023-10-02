@@ -34,7 +34,7 @@ public class Game {
 
         if (isPlayerAI) {
             System.out.println("How many times should the game run?");
-            runningCount = scanner.nextInt();
+            runningCount = scanner.nextInt() - 1;
         }
 
         System.out.println("\nLet's begin");
@@ -42,6 +42,8 @@ public class Game {
         // Initialize the dealer and player
         Dealer dealer = new Dealer();
         Player player = new Player();
+
+        player.deposit(scanner);
 
         while (continuePlaying) {
 
@@ -52,6 +54,7 @@ public class Game {
             List<List<Integer>> hands = dealer.dealCards(deck, dealerHand, playerHand, dealerDeck);
             List<Integer> dealerHand = hands.get(0);
             List<Integer> playerHand = hands.get(1);
+
 
             // Prompts the player to place a bet
             Integer bet = player.wager(scanner, isPlayerAI);
@@ -97,7 +100,7 @@ public class Game {
 
                 if (dealerDeck.updateHands(dealerHand) >= 17) {
                     // Check the winner and display the result
-                    System.out.println(gameMechanics.checkWinner(dealerDeck, dealerHand, playerHand, dealer, bet));
+                    System.out.println(gameMechanics.checkWinner(dealerDeck, dealerHand, playerHand, dealer, bet, player));
                     shouldDealerHit = false;
 
                 } else {

@@ -27,9 +27,6 @@ public class Statistic {
             }
         }
 
-        System.out.println("Player: " + player);
-        System.out.println("Dealer: " + dealer);
-        System.out.println("Push: " + push);
-
+        System.out.println("Player: " + player +"\nDealer: " + dealer + "\nPush: " + push);
     }
 }

@@ -51,13 +51,15 @@ public class Dealer {
         return dealerHand;
     }
 
-    public Integer payOut(Integer wager, String winner){
+    public Integer payOut(Integer wager, String winner, Player player){
         if (Objects.equals(winner, "player")) {
-            return wager * 2;
+            return player.balance(wager * 2);
         } else if (Objects.equals(winner, "stalemate")) {
-            return wager;
+            return player.balance(wager);
+        } else if (Objects.equals(winner, "push")) {
+            return player.balance(wager);
         } else {
-            return 0;
+            return player.balance(-wager);
         }
     }
 

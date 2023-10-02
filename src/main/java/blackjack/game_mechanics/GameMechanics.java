@@ -2,6 +2,7 @@ package blackjack.game_mechanics;
 
 import blackjack.players.ArtificialPlayer;
 import blackjack.players.Dealer;
+import blackjack.players.Player;
 import blackjack.statistics.Statistic;
 
 import java.util.List;
@@ -42,35 +43,34 @@ public class GameMechanics {
         }
     }
 
-    public String checkWinner(Deck dealerDeck, List<Integer> dealerHand, List<Integer> playerHand, Dealer dealer, Integer bet) {
+    public String checkWinner(Deck dealerDeck, List<Integer> dealerHand, List<Integer> playerHand, Dealer dealer, Integer bet, Player player) {
         Integer dealerValue = dealerDeck.updateHands(dealerHand);
         Integer playerValue = dealerDeck.updateHands(playerHand);
 
-        if (playerValue > dealerValue && playerValue < 21) {
+        if (playerValue > dealerValue && playerValue <= 21) {
             statistics.addWinner("player");
-            return "\nThe Player wins!\nPayout:$" + dealer.payOut(bet, "player");
+            return "\nThe Player wins!\nPayout:$" + dealer.payOut(bet, "player", player);
 
         } else if (playerValue == 21 && playerHand.size() == 2) {
             statistics.addWinner("player");
-            return "\nBlackjack! The Player wins!\nPayout:$" + dealer.payOut(bet, "player");
+            return "\nBlackjack! The Player wins!\nPayout:$" + dealer.payOut(bet, "player", player);
 
         } else if (dealerValue > 21) {
             statistics.addWinner("player");
-            return "\nDealer busts! Player wins!\nPayout:$" + dealer.payOut(bet, "player");
+            return "\nDealer busts! Player wins!\nPayout:$" + dealer.payOut(bet, "player", player);
 
         } else if (playerValue > 21) {
-            dealer.payOut(bet, "dealer");
             statistics.addWinner("dealer");
-            return "\nThe Player busts! The Dealer wins!\nPayout:$" + dealer.payOut(bet, "dealer");
+            return "\nThe Player busts! The Dealer wins!\nPayout:$" + dealer.payOut(bet, "dealer", player);
 
         } else {
             if (dealerValue.equals(playerValue)) {
                 statistics.addWinner("push");
-                return "\nPush!\nPayout:$" + dealer.payOut(bet, "stalemate");
+                return "\nPush!\nPayout:$" + dealer.payOut(bet, "stalemate", player);
 
             } else {
                 statistics.addWinner("dealer");
-                return "\nThe Dealer wins!\nPayout:$" + dealer.payOut(bet, "dealer");
+                return "\nThe Dealer wins!\nPayout:$" + dealer.payOut(bet, "dealer", player);
             }
         }
     }

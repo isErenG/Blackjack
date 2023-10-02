@@ -7,10 +7,6 @@ public class ArtificialPlayer {
 
     List<Integer> list = Arrays.asList(2, 3, 4, 5, 6);
 
-    public boolean isPlayerAI(boolean value) {
-        return value;
-    }
-
     public String chooseMove(int playerHandValue, int dealerHand) {
 
         if (playerHandValue <= 11) {

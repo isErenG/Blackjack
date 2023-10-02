@@ -7,14 +7,27 @@ import java.util.Scanner;
 
 public class Player {
 
+    Integer bankRoll = 0;
+
+    public void deposit(Scanner scanner) {
+        System.out.println("How much do you wish to deposit?");
+        bankRoll = scanner.nextInt();
+    }
+
     public Integer wager(Scanner scanner, boolean aiPlayer) {
         if (aiPlayer) {
             return 0;
         } else {
             System.out.println("How much do you wish to wager?");
-            return scanner.nextInt();
+
+            Integer bet = scanner.nextInt();
+            bankRoll = bankRoll - bet;
+
+            return bet;
+
         }
     }
+
 
     public List<Integer> hit(List<Integer> playerHand, List<Integer> deck, Deck dealerDeck) {
         playerHand.add(deck.get(0));
@@ -23,6 +36,11 @@ public class Player {
 
         deck.remove(deck.get(0));
         return playerHand;
+    }
+
+    public Integer balance(Integer payOut) {
+        bankRoll = bankRoll + payOut;
+        return bankRoll;
     }
 }
 
