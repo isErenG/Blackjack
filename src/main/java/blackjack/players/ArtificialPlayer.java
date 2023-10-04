@@ -19,7 +19,6 @@ public class ArtificialPlayer {
     }
 
     public String chooseMove(int playerHandValue, int dealerHand) {
-
         if (playerHandValue <= 11) {
             return "hit";
 

@@ -34,18 +34,29 @@ public class Game {
     // Starts the game
     public void startGame() throws InterruptedException {
 
-        isPlayerAI = playerAI.isPlayerAI(scanner);
-        if (isPlayerAI) {
-            runningCount = playerAI.getRunningCount(scanner);
-        }
-
-        System.out.println("\nLet's begin");
+        System.out.println("""
+                 _     _            _    _            _   \s
+                | |   | |          | |  (_)          | |  \s
+                | |__ | | __ _  ___| | ___  __ _  ___| | __
+                | '_ \\| |/ _` |/ __| |/ / |/ _` |/ __| |/ /
+                | |_) | | (_| | (__|   <| | (_| | (__|   <\s
+                |_.__/|_|\\__,_|\\___|_|\\_\\ |\\__,_|\\___|_|\\_\\
+                                       _/ |               \s
+                                      |__/  \s""");
 
         // Initialize the dealer and player
         Dealer dealer = new Dealer();
         Player player = new Player();
 
-        player.deposit(scanner);
+        isPlayerAI = playerAI.isPlayerAI(scanner);
+        if (isPlayerAI) {
+            runningCount = playerAI.getRunningCount(scanner);
+        } else {
+            player.deposit(scanner);
+        }
+
+        System.out.println("\nLet's begin");
+
 
         while (continuePlaying) {
 
@@ -75,7 +86,7 @@ public class Game {
 
                 // Check if the player has busted
                 if (playerHandValue > 21) {
-                    System.out.println("The player has busted.");
+                    System.out.println(gameMechanics.checkWinner(dealerDeck, dealerHand, playerHand, dealer, bet, player));
                     shouldDealerHit = false;
                     wantsHit = false;
 

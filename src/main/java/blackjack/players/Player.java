@@ -27,9 +27,8 @@ public class Player {
         }
     }
 
-    public Integer balance(Integer payOut) {
-        bankRoll = bankRoll + payOut;
-        return bankRoll;
+    public void updateBalance(Integer payOut) {
+        bankRoll+=payOut;
     }
 
     public List<Integer> hit(List<Integer> playerHand, List<Integer> deck, Deck dealerDeck) {

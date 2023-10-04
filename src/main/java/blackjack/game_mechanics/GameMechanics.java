@@ -49,28 +49,28 @@ public class GameMechanics {
 
         if (playerValue > dealerValue && playerValue <= 21) {
             statistics.addWinner("player");
-            return "\nThe Player wins!\nPayout:$" + dealer.payOut(bet, "player", player);
+            return "\nThe Player wins!\nBalance:$" + dealer.payOut(bet, "player", player);
 
         } else if (playerValue == 21 && playerHand.size() == 2) {
             statistics.addWinner("player");
-            return "\nBlackjack! The Player wins!\nPayout:$" + dealer.payOut(bet, "player", player);
+            return "\nBlackjack! The Player wins!\nBalance:$" + dealer.payOut(bet, "player", player);
 
         } else if (dealerValue > 21) {
             statistics.addWinner("player");
-            return "\nDealer busts! Player wins!\nPayout:$" + dealer.payOut(bet, "player", player);
+            return "\nDealer busts! Player wins!\nBalance:$" + dealer.payOut(bet, "player", player);
 
         } else if (playerValue > 21) {
             statistics.addWinner("dealer");
-            return "\nThe Player busts! The Dealer wins!\nPayout:$" + dealer.payOut(bet, "dealer", player);
+            return "\nThe Player busts! The Dealer wins!\nBalance:$" + dealer.payOut(bet, "dealer", player);
 
         } else {
             if (dealerValue.equals(playerValue)) {
                 statistics.addWinner("push");
-                return "\nPush!\nPayout:$" + dealer.payOut(bet, "stalemate", player);
+                return "\nPush!\nBalance:$" + dealer.payOut(bet, "stalemate", player);
 
             } else {
                 statistics.addWinner("dealer");
-                return "\nThe Dealer wins!\nPayout:$" + dealer.payOut(bet, "dealer", player);
+                return "\nThe Dealer wins!\nBalance:$" + dealer.payOut(bet, "dealer", player);
             }
         }
     }

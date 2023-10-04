@@ -8,7 +8,6 @@ import java.util.Objects;
 
 public class Dealer {
     public List<List<Integer>> dealCards(List<Integer> deck, List<Integer> dealerHand, List<Integer> playerHand, Deck dealerDeck) {
-
         // Dealer deals a total of 4 cards in a 1v1
         for (int i = 0; i < 4; i++) {
 
@@ -51,15 +50,22 @@ public class Dealer {
         return dealerHand;
     }
 
-    public Integer payOut(Integer wager, String winner, Player player){
+    public Integer payOut(Integer wager, String winner, Player player) {
         if (Objects.equals(winner, "player")) {
-            return player.balance(wager * 2);
+            player.updateBalance(wager * 2);
+            return player.bankRoll;
+
         } else if (Objects.equals(winner, "stalemate")) {
-            return player.balance(wager);
+            player.updateBalance(wager);
+            return player.bankRoll;
+
         } else if (Objects.equals(winner, "push")) {
-            return player.balance(wager);
+            player.updateBalance(wager);
+            return player.bankRoll;
+
         } else {
-            return player.balance(-wager);
+            player.updateBalance(-wager);
+            return player.bankRoll;
         }
     }
 
