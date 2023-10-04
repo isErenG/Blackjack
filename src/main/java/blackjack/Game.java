@@ -1,5 +1,7 @@
 package blackjack;
 
+import blackjack.game_mechanics.Deck;
+import blackjack.players.ArtificialPlayer;
 import blackjack.players.Dealer;
 import blackjack.players.Player;
 import blackjack.game_mechanics.GameMechanics;
@@ -10,6 +12,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Game {
+    boolean continuePlaying = true;
+    int runningCount;
+    boolean isPlayerAI;
 
     Scanner scanner = new Scanner(System.in);
 
@@ -19,6 +24,8 @@ public class Game {
     // Create a new deck of cards using the Deck class
     Deck dealerDeck = new Deck();
 
+    ArtificialPlayer playerAI = new ArtificialPlayer();
+
     // Get the list of cards from the dealer's deck and create empty lists for each player
     List<Integer> deck = dealerDeck.getCards();
     List<Integer> dealerHand = new ArrayList<>();
@@ -26,11 +33,30 @@ public class Game {
 
     // Starts the game
     public void startGame() throws InterruptedException {
+
+        System.out.println("""
+                 _     _            _    _            _   \s
+                | |   | |          | |  (_)          | |  \s
+                | |__ | | __ _  ___| | ___  __ _  ___| | __
+                | '_ \\| |/ _` |/ __| |/ / |/ _` |/ __| |/ /
+                | |_) | | (_| | (__|   <| | (_| | (__|   <\s
+                |_.__/|_|\\__,_|\\___|_|\\_\\ |\\__,_|\\___|_|\\_\\
+                                       _/ |               \s
+                                      |__/  \s""");
+
         // Initialize the dealer and player
         Dealer dealer = new Dealer();
         Player player = new Player();
 
-        boolean continuePlaying = true;
+        isPlayerAI = playerAI.isPlayerAI(scanner);
+        if (isPlayerAI) {
+            runningCount = playerAI.getRunningCount(scanner);
+        } else {
+            player.deposit(scanner);
+        }
+
+        System.out.println("\nLet's begin");
+
 
         while (continuePlaying) {
 
@@ -42,9 +68,13 @@ public class Game {
             List<Integer> dealerHand = hands.get(0);
             List<Integer> playerHand = hands.get(1);
 
+
             // Prompts the player to place a bet
-            Integer bet = player.wager(scanner);
-            scanner.nextLine();
+            Integer bet = player.wager(scanner, isPlayerAI);
+
+            if (!(isPlayerAI)) {
+                scanner.nextLine();
+            }
 
             // Displays the player's and dealer's hands
             System.out.println("\nThe dealer has a " + dealerHand.get(0) + "\nWhile you have a " + playerHand);
@@ -56,10 +86,11 @@ public class Game {
 
                 // Check if the player has busted
                 if (playerHandValue > 21) {
-                    System.out.println("The player has busted.");
+                    System.out.println(gameMechanics.checkWinner(dealerDeck, dealerHand, playerHand, dealer, bet, player));
                     shouldDealerHit = false;
                     wantsHit = false;
-                } else if (gameMechanics.getNextMove(scanner).equalsIgnoreCase("hit")) {
+
+                } else if (gameMechanics.getNextMove(scanner, playerHandValue, dealerHand.get(0), isPlayerAI).equalsIgnoreCase("hit")) {
                     // Player wants to hit
                     System.out.println("\n" + player.hit(playerHand, deck, dealerDeck));
                 } else {
@@ -68,15 +99,21 @@ public class Game {
                 }
             }
 
-            // Reveal the dealer's second card
-            System.out.println("\nThe dealer reveals a " + dealerHand.get(1) + "\n");
+            if (dealerDeck.updateHands(playerHand) <= 21) {
+                // Reveal the dealer's second card
+                System.out.println("\nThe dealer reveals a " + dealerHand.get(1) + "\n");
+            }
 
             // While the dealer needs to hit, continue hitting
             while (shouldDealerHit) {
-                TimeUnit.SECONDS.sleep(2);
+
+                if (!(isPlayerAI)) {
+                    TimeUnit.SECONDS.sleep(2);
+                }
+
                 if (dealerDeck.updateHands(dealerHand) >= 17) {
                     // Check the winner and display the result
-                    System.out.println(gameMechanics.checkWinner(dealerDeck, dealerHand, playerHand, dealer, bet));
+                    System.out.println(gameMechanics.checkWinner(dealerDeck, dealerHand, playerHand, dealer, bet, player));
                     shouldDealerHit = false;
 
                 } else {
@@ -85,9 +122,10 @@ public class Game {
                 }
             }
 
+            System.out.println("⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻\n");
+
             // Ask the player if they want to continue playing
-            System.out.println("\nDo you want to continue playing?\n[Options] Press enter or type no");
-            if (gameMechanics.quitGame(scanner).equalsIgnoreCase("No")) {
+            if (gameMechanics.quitGame(scanner, isPlayerAI, runningCount).equals("no")) {
                 continuePlaying = false;
             } else {
                 // Clear the player and dealer hands

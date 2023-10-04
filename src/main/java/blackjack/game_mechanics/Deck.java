@@ -1,4 +1,4 @@
-package blackjack;
+package blackjack.game_mechanics;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +22,6 @@ public class Deck {
     }
 
     public void calculateAces(List<Integer> hand) {
-
         for (int i = 0; i < hand.size(); i++) {
             int cardValue = hand.get(i);
 
